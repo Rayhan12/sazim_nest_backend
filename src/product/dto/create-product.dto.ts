@@ -1,5 +1,7 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayNotEmpty,
+  IsArray,
   IsDate,
   IsEnum,
   IsNotEmpty,
@@ -54,8 +56,16 @@ export class CreateProductDto {
     enum: CategoryEnum,
     example: CategoryEnum.ELECTRONICS
   })
-  @IsEnum(CategoryEnum)
-  categories!: CategoryEnum;
+
+  @ApiProperty({
+    description: 'Category',
+    enum: CategoryEnum,
+    example: [CategoryEnum.ELECTRONICS,CategoryEnum.HOME_APPLIANCES]
+  })
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsEnum(CategoryEnum, { each: true }) // Validate each element in the array
+  categories!: CategoryEnum[];
 
   @ApiProperty({
     description: 'Rent option (hourly or daily)',
@@ -96,5 +106,5 @@ export class CreateProductDto {
   })
   @IsOptional()
   @IsString()
-  product_image?: string; 
+  product_image?: string;
 }

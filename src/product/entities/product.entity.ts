@@ -22,8 +22,8 @@ export class Product {
   @Property()
   description!: string;
 
-  @Property({ type: 'string' })
-  categories!: CategoryEnum;
+  @Property({ type: 'json' }) // or 'text' if you want to manually parse
+  categories!: CategoryEnum[];
 
   @Property({ type: 'string' })
   rent_option!: RentOptions;

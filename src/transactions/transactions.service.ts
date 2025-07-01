@@ -22,13 +22,13 @@ export class TransactionsService {
     ){}
 
 async createPurchase(purchaseDto :PurchaseDto){
-    const user = await this.userRepo.findOne(purchaseDto.buyer_id)
+    const user = await this.userRepo.findOne(purchaseDto.buyer)
     if(!user)
     {
         throw new BadRequestException('User not found');
     }
 
-    const product = await this.productRepo.findOne(purchaseDto.product_id)
+    const product = await this.productRepo.findOne(purchaseDto.product)
 
     if(!product)
     {
@@ -40,7 +40,7 @@ async createPurchase(purchaseDto :PurchaseDto){
     return buildResponse(201,'Purchased Successfully',purchase)
 }
 
-async getAllPurchase(user_id?: string) {
+async getAllPurchase(user_id?: number) {
   if (user_id != null) {
     const user = await this.userRepo.findOne({ id: +user_id });
 
@@ -52,7 +52,7 @@ async getAllPurchase(user_id?: string) {
     return buildResponse(200, 'Data Found', purchases);
   }
 
-  const purchases = await this.productRepo.findAll();
+  const purchases = await this.purchaseRepo.findAll();
   return buildResponse(200, 'Data Found', purchases);
 }
 
@@ -88,19 +88,19 @@ async createRent(rentDto :RentDto){
     return buildResponse(201,'rented Successfully',rent)
 }
 
-async getAllRent(user_id? : string){
-    if (user_id != null) {
+async getAllRent(user_id? : number){
+  if (user_id != null) {
     const user = await this.userRepo.findOne({ id: +user_id });
 
     if (!user) {
       throw new BadRequestException('User not found');
     }
 
-    const rents = await this.rentRepo.find({ renter: user.id }); // ✅ Correct usage
-    return buildResponse(200, 'Data Found', rents);
+    const rent = await this.rentRepo.find({ renter: user.id }); // ✅ Correct usage
+    return buildResponse(200, 'Data Found', rent);
   }
 
-  const purchases = await this.productRepo.findAll();
+  const purchases = await this.rentRepo.findAll();
   return buildResponse(200, 'Data Found', purchases);
 }
 

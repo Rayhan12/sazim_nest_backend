@@ -9,7 +9,7 @@ export class PurchaseDto{
     })
     @IsNumber()
     @IsNotEmpty()
-    buyer_id !: number;
+    buyer !: number;
     
     @ApiProperty({
         description: 'ID of the product being purchased',
@@ -17,7 +17,7 @@ export class PurchaseDto{
     })
     @IsNumber()
     @IsNotEmpty()
-    product_id!: number;
+    product!: number;
     
     @ApiProperty({
         description: 'Date of purchase',
