@@ -12,12 +12,12 @@ export class TransactionsController {
     return this.transactionsService.createPurchase(purchaseDto);
   }
 
-  @Get("purchase")
-  getAllPurchase(@Query() user_id? : number){
-    return this.transactionsService.getAllPurchase(user_id)
-  } 
+@Get("purchase")
+getAllPurchase(@Query('user_id') user_id?: string) {
+  return this.transactionsService.getAllPurchase(user_id);
+}
 
-  @Get("Purchase/:id")
+  @Get("purchase/:id")
   getPurchaseById(@Param('id') id:number){
     return this.transactionsService.getPurchaseById(id)
   }
@@ -31,7 +31,7 @@ export class TransactionsController {
   }
 
   @Get("rent")
-  getAllRent(@Query() user_id? : number){
+  getAllRent(@Query() user_id? : string){
     return this.transactionsService.getAllRent(user_id)
   }
 

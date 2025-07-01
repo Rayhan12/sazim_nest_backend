@@ -40,16 +40,20 @@ async createPurchase(purchaseDto :PurchaseDto){
     return buildResponse(201,'Purchased Successfully',purchase)
 }
 
-async getAllPurchase(user_id? : number){
-    const user = await this.userRepo.findOne({id: user_id})
-    if(!user)
-    {
-        throw new BadRequestException('User not found');
+async getAllPurchase(user_id?: string) {
+  if (user_id != null) {
+    const user = await this.userRepo.findOne({ id: +user_id });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
     }
 
-    const purchases = await this.productRepo.find(user)
-    return buildResponse(200,'Data Found',purchases)
+    const purchases = await this.productRepo.find({ user: user.id }); // ✅ Correct usage
+    return buildResponse(200, 'Data Found', purchases);
+  }
 
+  const purchases = await this.productRepo.findAll();
+  return buildResponse(200, 'Data Found', purchases);
 }
 
 async getPurchaseById(id:number){
@@ -84,15 +88,20 @@ async createRent(rentDto :RentDto){
     return buildResponse(201,'rented Successfully',rent)
 }
 
-async getAllRent(user_id? : number){
-    const user = await this.userRepo.findOne({id: user_id})
-    if(!user)
-    {
-        throw new BadRequestException('User not found');
+async getAllRent(user_id? : string){
+    if (user_id != null) {
+    const user = await this.userRepo.findOne({ id: +user_id });
+
+    if (!user) {
+      throw new BadRequestException('User not found');
     }
 
-    const rents = await this.rentRepo.find(user)
-    return buildResponse(200,'Data Found',rents)
+    const rents = await this.rentRepo.find({ renter: user.id }); // ✅ Correct usage
+    return buildResponse(200, 'Data Found', rents);
+  }
+
+  const purchases = await this.productRepo.findAll();
+  return buildResponse(200, 'Data Found', purchases);
 }
 
 async getRentById(id:number){

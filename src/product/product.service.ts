@@ -20,7 +20,7 @@ export class ProductService {
 
 
   async create(createProductDto: CreateProductDto, file?: MulterFile) {
-    const user = await this.userRepo.findOne(+createProductDto.user_id);
+    const user = await this.userRepo.findOne(createProductDto.user_id);
 
     if(!user){
       throw new BadRequestException('Invalid User')
